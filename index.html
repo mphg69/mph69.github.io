@@ -33,6 +33,12 @@
       width: auto;
       border-radius: 10px;
       object-fit: contain;
+      filter: blur(5px);
+      transition: filter 0.5s ease-out;
+    }
+
+    .card img.unblurred {
+      filter: blur(0);
     }
 
     .title {
@@ -45,9 +51,29 @@
 
 <body>
   <div class="card">
-    <img src="img1.png" alt="QR Code Info">
-    <!-- <div class="title">Scan the QR Code Above</div> -->
+    <img id="mainImage" src="img1.png" alt="QR Code Info">
+    <!-- <div class="title\">Scan the QR Code Above</div> -->
   </div>
+
+  <audio id="audioPlayer" loop src="sound1.mp3" style="display:none;"></audio>
+
+  <script>
+    const audioPlayer = document.getElementById('audioPlayer');
+    const mainImage = document.getElementById('mainImage');
+    let firstClick = true;
+
+    audioPlayer.volume = 0.5; // Set volume to 50%
+
+    document.addEventListener('click', function () {
+      if (firstClick) {
+        firstClick = false;
+        mainImage.classList.add('unblurred');
+        audioPlayer.play().catch(error => {
+          console.log("Audio play was prevented: ", error);
+        });
+      }
+    }, { once: true });
+  </script>
 </body>
 
 </html>
